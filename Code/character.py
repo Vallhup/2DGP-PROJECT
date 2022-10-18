@@ -10,6 +10,10 @@ class Character:
         self.frame = 0
         self.state = 0
         self.life = 3
+        self.image_main = None
+        self.image_life = None
+
+    def start(self):
         self.image_main = load_image("character_sprite1.png")
         self.image_life = load_image("character_life.png")
 
@@ -25,30 +29,40 @@ class Character:
         match self.state:
             # 달리는 상태
             case 0:
-                self.image_main.clip_draw(self.frame * 84, 250, 50, 55, self.x, self.y)
+                self.image_main.clip_draw(self.frame * 84, 250, 50, 55, self.x, self.y, 100, 100)
 
             # 점프 상태
             case 1:
                 if self.jump_count < 4:
-                    self.jump += 20
+                    self.jump += 40
 
                 else:
-                    self.jump -= 20
+                    self.jump -= 40
 
                 if self.jump_count == 7:
                     self.state = 0
 
                 self.jump_count = (self.jump_count + 1) % 8
-                self.image_main.clip_draw(self.jump_frame * 70, 110, 60, 60, self.x, self.y + self.jump)
+                self.image_main.clip_draw(self.jump_frame * 70, 110, 60, 60, self.x, self.y + self.jump, 100, 100)
 
             # 슬라이드 상태
             case 2:
                 self.jump = 0
                 self.jump_count = 0
-                self.image_main.clip_draw(0, 190, 60, 55, self.x, self.y)
+                self.image_main.clip_draw(0, 190, 60, 55, self.x, self.y, 100, 100)
 
         for life in range(0, self.life):
             self.image_life.draw(life * 55 + 40, 550)
+
+
+class Item:
+    def __init__(self):
+        self.image = None
+
+    def start(self):
+        self.image = load_image("heal_item.png")
+    def draw(self):
+        self.image.draw_to_origin(400, 30, 150, 150)
 
 
 def handle_events():
@@ -77,10 +91,13 @@ def handle_events():
                     character.state = 0
 
 
-open_canvas()
-
 character = Character()
+heal_item = Item()
 running = True
+
+open_canvas()
+character.start()
+heal_item.start()
 
 while running:
     handle_events()
@@ -89,6 +106,7 @@ while running:
 
     clear_canvas()
     character.draw()
+    heal_item.draw()
     update_canvas()
 
     delay(0.05)

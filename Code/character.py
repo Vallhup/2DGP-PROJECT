@@ -6,12 +6,18 @@ class Character:
         self.x, self.y = 100, 90
         self.jump = 0
         self.jump_count = 0
+        self.jump_frame = 0
         self.frame = 0
         self.state = 0
         self.image = load_image("character_sprite1.png")
 
     def update(self):
-        self.frame = (self.frame + 1) % 5
+        match self.state:
+            case 0:
+                self.frame = (self.frame + 1) % 5
+
+            case 1:
+                self.jump_frame = (self.jump_frame + 1) % 8
 
     def draw(self):
         match self.state:
@@ -21,17 +27,17 @@ class Character:
 
             # 점프 상태
             case 1:
-                if self.jump_count < 5:
+                if self.jump_count < 4:
                     self.jump += 10
 
                 else:
                     self.jump -= 10
 
-                if self.jump_count == 9:
+                if self.jump_count == 7:
                     self.state = 0
 
-                self.jump_count = (self.jump_count + 1) % 10
-                self.image.clip_draw(self.frame * 84, 250, 50, 55, self.x, self.y + self.jump)
+                self.jump_count = (self.jump_count + 1) % 8
+                self.image.clip_draw(self.jump_frame * 70, 110, 60, 60, self.x, self.y + self.jump)
 
             # 슬라이드 상태
             case 2:

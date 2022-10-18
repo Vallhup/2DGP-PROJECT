@@ -9,7 +9,9 @@ class Character:
         self.jump_frame = 0
         self.frame = 0
         self.state = 0
-        self.image = load_image("character_sprite1.png")
+        self.life = 3
+        self.image_main = load_image("character_sprite1.png")
+        self.image_life = load_image("character_life.png")
 
     def update(self):
         match self.state:
@@ -23,25 +25,30 @@ class Character:
         match self.state:
             # 달리는 상태
             case 0:
-                self.image.clip_draw(self.frame * 84, 250, 50, 55, self.x, self.y)
+                self.image_main.clip_draw(self.frame * 84, 250, 50, 55, self.x, self.y)
 
             # 점프 상태
             case 1:
                 if self.jump_count < 4:
-                    self.jump += 10
+                    self.jump += 20
 
                 else:
-                    self.jump -= 10
+                    self.jump -= 20
 
                 if self.jump_count == 7:
                     self.state = 0
 
                 self.jump_count = (self.jump_count + 1) % 8
-                self.image.clip_draw(self.jump_frame * 70, 110, 60, 60, self.x, self.y + self.jump)
+                self.image_main.clip_draw(self.jump_frame * 70, 110, 60, 60, self.x, self.y + self.jump)
 
             # 슬라이드 상태
             case 2:
-                self.image.clip_draw(0, 190, 60, 55, self.x, self.y)
+                self.jump = 0
+                self.jump_count = 0
+                self.image_main.clip_draw(0, 190, 60, 55, self.x, self.y)
+
+        for life in range(0, self.life):
+            self.image_life.draw(life * 55 + 40, 550)
 
 
 def handle_events():

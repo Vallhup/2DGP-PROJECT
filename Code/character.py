@@ -1,4 +1,5 @@
 from pico2d import *
+import game_framework
 
 
 class Character:
@@ -10,10 +11,6 @@ class Character:
         self.frame = 0
         self.state = 0
         self.life = 3
-        self.image_main = None
-        self.image_life = None
-
-    def start(self):
         self.image_main = load_image("character_sprite1.png")
         self.image_life = load_image("character_life.png")
 
@@ -33,16 +30,16 @@ class Character:
 
             # 점프 상태
             case 1:
-                if self.jump_count < 4:
-                    self.jump += 40
+                if self.jump_count < 8:
+                    self.jump += 20
 
                 else:
-                    self.jump -= 40
+                    self.jump -= 20
 
-                if self.jump_count == 7:
+                if self.jump_count == 15:
                     self.state = 0
 
-                self.jump_count = (self.jump_count + 1) % 8
+                self.jump_count = (self.jump_count + 1) % 16
                 self.image_main.clip_draw(self.jump_frame * 70, 110, 60, 60, self.x, self.y + self.jump, 100, 100)
 
             # 슬라이드 상태
@@ -57,27 +54,22 @@ class Character:
 
 class Item:
     def __init__(self):
-        self.image = None
-
-    def start(self):
         self.image = load_image("heal_item.png")
+
     def draw(self):
         self.image.draw_to_origin(400, 30, 150, 150)
 
-
 def handle_events():
-    global running
-
     events = get_events()
 
     for event in events:
         if event.type == SDL_QUIT:
-            running = False
+            game_framework.quit()
 
         elif event.type == SDL_KEYDOWN:
             match event.key:
                 case pico2d.SDLK_ESCAPE:
-                    running = False
+                    game_framework.quit()
 
                 case pico2d.SDLK_UP:
                     character.state = 1
@@ -91,24 +83,66 @@ def handle_events():
                     character.state = 0
 
 
-character = Character()
-heal_item = Item()
-running = True
+character = None
+heal_item = None
 
-open_canvas()
-character.start()
-heal_item.start()
+def enter():
+    global character, heal_item
 
-while running:
-    handle_events()
+    character = Character()
+    heal_item = Item()
 
+def exit():
+    global character, heal_item
+
+    del character
+    del heal_item
+
+def update():
+    delay(0.05)
     character.update()
 
-    clear_canvas()
+def draw_world():
     character.draw()
     heal_item.draw()
+
+def draw():
+    clear_canvas()
+    draw_world()
     update_canvas()
 
-    delay(0.05)
+def pause():
+    pass
 
-close_canvas()
+def resume():
+    pass
+
+def test_self():
+    import sys
+
+    this_module = sys.modules['__main__']
+    pico2d.open_canvas()
+    game_framework.run(this_module)
+    pico2d.close_canvas()
+
+
+if __name__ == '__main__':
+    test_self()
+
+# open_canvas()
+# character.start()
+# heal_item.start()
+#
+# while running:
+#     handle_events()
+#
+#     character.update()
+#
+#     clear_canvas()
+#     character.draw()
+#     heal_item.draw()
+#     update_canvas()
+#
+#     delay(0.05)
+#
+# close_canvas()

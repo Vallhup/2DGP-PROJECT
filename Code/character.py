@@ -114,49 +114,16 @@ class Character:
         if self.STATE_Q:
             event = self.STATE_Q.pop()
             self.cur_state.exit(self, event)
-            # try:
-            #     self.cur_state = next_state[self.cur_state][event]
-            #
-            # except KeyError:
-            #     print('ERROR : ', self.cur_state.__name__, ' ', event_name[event])
-            self.cur_state = next_state[self.cur_state][event]
+            try:
+                self.cur_state = next_state[self.cur_state][event]
+
+            except KeyError:
+                print('ERROR : ', self.cur_state.__name__, ' ', event_name[event])
+
             self.cur_state.enter(self, event)
-
-
-        # match self.state:
-        #     case 0:
-        #         self.frame = (self.frame + 1) % 5
-        #
-        #     case 1:
-        #         self.jump_frame = (self.jump_frame + 1) % 8
 
     def draw(self):
         self.cur_state.draw(self)
 
         for life in range(0, self.life):
             self.image_life.draw(life * 55 + 40, 550)
-
-        # match self.state:
-        #     # 달리는 상태
-        #     case 0:
-        #         self.image_main.clip_draw(self.frame * 84, 250, 50, 55, self.x, self.y, 100, 100)
-        #
-        #     # 점프 상태
-        #     case 1:
-        #         if self.jump_count < 8:
-        #             self.jump += 20
-        #
-        #         else:
-        #             self.jump -= 20
-        #
-        #         if self.jump_count == 15:
-        #             self.state = 0
-        #
-        #         self.jump_count = (self.jump_count + 1) % 16
-        #         self.image_main.clip_draw(self.jump_frame * 70, 110, 60, 60, self.x, self.y + self.jump, 100, 100)
-        #
-        #     # 슬라이드 상태
-        #     case 2:
-        #         self.jump = 0
-        #         self.jump_count = 0
-        #         self.image_main.clip_draw(0, 190, 60, 55, self.x, self.y, 100, 100)

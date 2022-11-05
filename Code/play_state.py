@@ -1,5 +1,6 @@
 from pico2d import *
 import game_framework
+import game_world
 
 from character import Character
 from item import Item
@@ -26,19 +27,20 @@ def enter():
     character = Character()
     heal_item = Item()
 
-def exit():
-    global character, heal_item
+    game_world.add_object(character, 1)
+    game_world.add_object(heal_item, 1)
 
-    del character
-    del heal_item
+def exit():
+    game_world.clear()
 
 def update():
     delay(0.05)
-    character.update()
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 def draw_world():
-    character.draw()
-    heal_item.draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
 
 def draw():
     clear_canvas()

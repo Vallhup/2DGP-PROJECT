@@ -5,6 +5,9 @@ class Item:
     def __init__(self):
         self.image = load_image("heal_item.png")
 
+    def update(self):
+        pass
+
     def draw(self):
         self.image.draw_to_origin(400, 30, 150, 150)
 

@@ -8,4 +8,4 @@ class Obstacle:
         pass
 
     def draw(self):
-        self.image.draw_to_origin(200, 90, 75, 130)
+        self.image.draw_to_origin(200, 90, 70, 130)

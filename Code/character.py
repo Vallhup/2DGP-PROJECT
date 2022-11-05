@@ -93,7 +93,7 @@ class Character:
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
-    def __init__(self, x = 100, y = 90):
+    def __init__(self, x = 100, y = 133):
         self.x, self.y = x, y
         self.frame = 0
         self.life = 3

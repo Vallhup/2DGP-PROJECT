@@ -4,9 +4,11 @@ import game_world
 
 from character import Character
 from item import Item
+from background import Background
 
 character = None
 heal_item = None
+background = None
 
 def handle_events():
     events = get_events()
@@ -22,11 +24,13 @@ def handle_events():
             character.handle_event(event)
 
 def enter():
-    global character, heal_item
+    global character, heal_item, background
 
     character = Character()
     heal_item = Item()
+    background = Background()
 
+    game_world.add_object(background, 0)
     game_world.add_object(character, 1)
     game_world.add_object(heal_item, 1)
 

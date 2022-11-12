@@ -4,7 +4,7 @@ import game_framework
 import background
 
 class Obstacle:
-    def __init__(self, x = 800):
+    def __init__(self, x = 1000):
         self.image = load_image("trash.png")
         self.x = x
 

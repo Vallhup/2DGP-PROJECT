@@ -110,7 +110,7 @@ class Character:
     def __init__(self, x = 100, y = 130):
         self.x, self.y = x, y
         self.frame = 0
-        self.life = 3
+        self.life = 1
         self.image_main = load_image("character_sprite1.png")
         self.image_life = load_image("character_life.png")
 
@@ -141,3 +141,14 @@ class Character:
 
         for life in range(0, self.life):
             self.image_life.draw(life * 55 + 50, 500)
+
+        draw_rectangle(*self.get_bb())
+
+    def get_bb(self):
+        return self.x - 40, self.y - 40, self.x + 40, self.y + 40
+
+    def handle_collision(self, other, group):
+        print('character meets heal_item')
+        if group == 'character:heal_item':
+            if self.life < 3:
+                self.life += 1

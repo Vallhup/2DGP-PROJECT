@@ -113,7 +113,7 @@ class Character:
     def __init__(self, x = 100, y = 130):
         self.x, self.y = x, y
         self.frame = 0
-        self.life = 1
+        self.life = 3
         self.image_main = load_image("character_sprite1.png")
         self.image_life = load_image("character_life.png")
 
@@ -124,6 +124,8 @@ class Character:
         self.jump = 0
         self.jump_count = 0
         self.jump_frame = 0
+
+        self.damage_stop = False
 
     def update(self):
         self.cur_state.do(self)
@@ -151,10 +153,12 @@ class Character:
         if self.cur_state == SLIDE:
             return self.x - 35, self.y - 40, self.x + 45, self.y + 15
 
-        return self.x - 40, self.y - 40, self.x + 40, self.y + 40
+        return self.x - 35, self.y - 40, self.x + 35, self.y + 40
 
     def handle_collision(self, other, group):
-        print('character meets heal_item')
         if group == 'character:heal_item':
             if self.life < 3:
                 self.life += 1
+
+        if group == 'character:obstacle':
+            self.life -= 1

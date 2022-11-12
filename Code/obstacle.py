@@ -1,11 +1,25 @@
 from pico2d import *
+import game_world
+import game_framework
+import background
 
 class Obstacle:
-    def __init__(self):
+    def __init__(self, x = 800):
         self.image = load_image("trash.png")
+        self.x = x
 
     def update(self):
+        self.x -= background.RUN_SPEED_PPS * game_framework.frame_time
         pass
 
     def draw(self):
-        self.image.draw_to_origin(200, 90, 70, 130)
+        self.image.draw_to_origin(self.x, 90, 50, 110)
+        draw_rectangle(*self.get_bb())
+
+    def get_bb(self):
+        return self.x, 90, self.x + 50, 200
+
+    def handle_collision(self, other, group):
+        if group == 'character:obstacle':
+            game_world.remove_object(self)
+            pass

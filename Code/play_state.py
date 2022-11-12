@@ -41,6 +41,9 @@ def enter():
     # character와 heal_item 충돌 그룹 추가
     game_world.add_collision_group(character, heal_item, 'character:heal_item')
 
+    # character와 obstacle 충돌 그룹 추가
+    game_world.add_collision_group(character, obstacle, 'character:obstacle')
+
 def exit():
     game_world.clear()
 

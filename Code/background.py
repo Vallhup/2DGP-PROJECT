@@ -1,11 +1,20 @@
 from pico2d import *
+import game_framework
+
+PIXEL_PER_METER = 10 / 0.3
+RUN_SPEED_KPH = 15
+RUN_SPEED_MPM = RUN_SPEED_KPH * 1000.0 / 60
+RUN_SPEED_MPS = RUN_SPEED_MPM / 60
+RUN_SPEED_PPS = RUN_SPEED_MPS * PIXEL_PER_METER
 
 class Background:
     def __init__(self):
         self.image = load_image("spring.png")
+        self.x = 0
 
     def update(self):
-        pass
+        self.x = int((self.x + (RUN_SPEED_PPS * game_framework.frame_time)) % 980)
 
     def draw(self):
-        self.image.draw(525, 300)
+        self.image.clip_draw(self.x, 0, 980 - self.x, 560, 490 - self.x / 2.0, 280)
+        self.image.clip_draw(0, 0, self.x, 560, 980 - self.x / 2.0, 280)

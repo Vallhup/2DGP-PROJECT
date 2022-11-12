@@ -1,36 +1,14 @@
 from pico2d import *
 import game_framework
+import background
 
 class Item:
-    def __init__(self):
+    def __init__(self, x = 1050):
         self.image = load_image("heal_item.png")
+        self.x = x
 
     def update(self):
-        pass
+        self.x -= background.RUN_SPEED_PPS * game_framework.frame_time
 
     def draw(self):
-        self.image.draw_to_origin(400, 30, 150, 150)
-
-def handle_events():
-    events = get_events()
-
-    for event in events:
-        if event.type == SDL_QUIT:
-            game_framework.quit()
-
-        elif event.type == SDL_KEYDOWN:
-            match event.key:
-                case pico2d.SDLK_ESCAPE:
-                    game_framework.quit()
-
-                case pico2d.SDLK_UP:
-                    character.state = 1
-
-                case pico2d.SDLK_DOWN:
-                    character.state = 2
-
-        elif event.type == SDL_KEYUP:
-            match event.key:
-                case pico2d.SDLK_DOWN:
-                    character.state = 0
-
+        self.image.draw_to_origin(self.x, 70, 120, 120)

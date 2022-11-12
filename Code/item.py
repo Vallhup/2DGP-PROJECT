@@ -4,7 +4,7 @@ import game_framework
 import background
 
 class Item:
-    def __init__(self, x = 1050):
+    def __init__(self, x = 1150):
         self.image = load_image("heal_item.png")
         self.x = x
 

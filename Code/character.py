@@ -18,7 +18,7 @@ RUN_ACTION_PER_TIME = 1.0 / TIME_PER_RUN_ACTION
 FRAMES_PER_RUN_ACTION = 5
 
 # Jump Action Speed
-TIME_PER_JUMP_ACTION = 0.5
+TIME_PER_JUMP_ACTION = 1.6
 JUMP_ACTION_PER_TIME = 1.0 / TIME_PER_JUMP_ACTION
 FRAMES_PER_JUMP_ACTION = 8
 
@@ -55,23 +55,26 @@ class JUMP:
 
     @staticmethod
     def do(self):
-        if self.jump_count < 4:
-            self.jump += 40
+        if self.jump_count == 1:
+            self.y -= 320 * game_framework.frame_time
 
         else:
-            self.jump -= 40
+            self.y += 320 * game_framework.frame_time
 
-        if self.jump_count == 7:
+        if self.y > 340:
+            self.jump_count = 1
+
+        if self.y < 130:
+            self.y = 130
+            self.jump_count = 0
             self.add_event(TIMER)
 
-        # self.jump_frame = (self.jump_frame + 1) % 8
         self.jump_frame = (self.jump_frame + FRAMES_PER_JUMP_ACTION * JUMP_ACTION_PER_TIME * game_framework.frame_time) % 8
-        self.jump_count = (self.jump_count + 1) % 8
         pass
 
     @staticmethod
     def draw(self):
-        self.image_main.clip_draw(int(self.jump_frame) * 70, 110, 60, 60, self.x, self.y + self.jump, 100, 100)
+        self.image_main.clip_draw(int(self.jump_frame) * 70, 110, 60, 60, self.x, self.y, 100, 100)
         pass
 
 class SLIDE:

@@ -65,7 +65,7 @@ def test_self():
     import sys
 
     this_module = sys.modules['__main__']
-    pico2d.open_canvas()
+    pico2d.open_canvas(1050, 600)
     game_framework.run(this_module)
     pico2d.close_canvas()
 

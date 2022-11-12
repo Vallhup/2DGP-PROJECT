@@ -145,6 +145,9 @@ class Character:
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
+        if self.cur_state == SLIDE:
+            return self.x - 35, self.y - 40, self.x + 45, self.y + 15
+
         return self.x - 40, self.y - 40, self.x + 40, self.y + 40
 
     def handle_collision(self, other, group):

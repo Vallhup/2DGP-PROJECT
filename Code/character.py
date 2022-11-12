@@ -1,5 +1,7 @@
 from pico2d import *
 
+import game_framework
+
 # 1. 이벤트 정의
 JD, SD, SU, TIMER = range(4)
 event_name = ['JD', 'SD', 'SU', 'TIMER']
@@ -9,6 +11,16 @@ key_event_table = {
     (SDL_KEYDOWN, SDLK_DOWN): SD,
     (SDL_KEYUP, SDLK_DOWN): SU
 }
+
+# Run Action Speed
+TIME_PER_RUN_ACTION = 0.3
+RUN_ACTION_PER_TIME = 1.0 / TIME_PER_RUN_ACTION
+FRAMES_PER_RUN_ACTION = 5
+
+# Jump Action Speed
+TIME_PER_JUMP_ACTION = 0.5
+JUMP_ACTION_PER_TIME = 1.0 / TIME_PER_JUMP_ACTION
+FRAMES_PER_JUMP_ACTION = 8
 
 # 2. 상태 정의
 class RUN:
@@ -22,12 +34,13 @@ class RUN:
 
     @staticmethod
     def do(self):
-        self.frame = (self.frame + 1) % 5
+        # self.frame = (self.frame + 1) % 5
+        self.frame = (self.frame + FRAMES_PER_RUN_ACTION * RUN_ACTION_PER_TIME * game_framework.frame_time) % 5
         pass
 
     @staticmethod
     def draw(self):
-        self.image_main.clip_draw(self.frame * 84, 250, 50, 55, self.x, self.y, 100, 100)
+        self.image_main.clip_draw(int(self.frame) * 84, 250, 50, 55, self.x, self.y, 100, 100)
         pass
 
 class JUMP:
@@ -42,22 +55,23 @@ class JUMP:
 
     @staticmethod
     def do(self):
-        if self.jump_count < 8:
-            self.jump += 20
+        if self.jump_count < 4:
+            self.jump += 40
 
         else:
-            self.jump -= 20
+            self.jump -= 40
 
-        if self.jump_count == 15:
+        if self.jump_count == 7:
             self.add_event(TIMER)
 
-        self.jump_frame = (self.jump_frame + 1) % 8
-        self.jump_count = (self.jump_count + 1) % 16
+        # self.jump_frame = (self.jump_frame + 1) % 8
+        self.jump_frame = (self.jump_frame + FRAMES_PER_JUMP_ACTION * JUMP_ACTION_PER_TIME * game_framework.frame_time) % 8
+        self.jump_count = (self.jump_count + 1) % 8
         pass
 
     @staticmethod
     def draw(self):
-        self.image_main.clip_draw(self.jump_frame * 70, 110, 60, 60, self.x, self.y + self.jump, 100, 100)
+        self.image_main.clip_draw(int(self.jump_frame) * 70, 110, 60, 60, self.x, self.y + self.jump, 100, 100)
         pass
 
 class SLIDE:
@@ -93,7 +107,7 @@ class Character:
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
-    def __init__(self, x = 100, y = 133):
+    def __init__(self, x = 100, y = 130):
         self.x, self.y = x, y
         self.frame = 0
         self.life = 3
@@ -126,4 +140,4 @@ class Character:
         self.cur_state.draw(self)
 
         for life in range(0, self.life):
-            self.image_life.draw(life * 55 + 40, 550)
+            self.image_life.draw(life * 55 + 50, 500)

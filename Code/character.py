@@ -61,7 +61,7 @@ class JUMP:
         else:
             self.y += 320 * game_framework.frame_time
 
-        if self.y > 340:
+        if self.y > 360:
             self.jump_count = 1
 
         if self.y < 130:
@@ -103,6 +103,8 @@ next_state = {
 }
 
 class Character:
+    image_main = None
+    image_life = None
     def add_event(self, event):
         self.STATE_Q.insert(0, event)
 
@@ -114,8 +116,12 @@ class Character:
         self.x, self.y = x, y
         self.frame = 0
         self.life = 3
-        self.image_main = load_image("character_sprite1.png")
-        self.image_life = load_image("character_life.png")
+
+        if Character.image_main == None:
+            self.image_main = load_image("character_sprite1.png")
+
+        if Character.image_life == None:
+            self.image_life = load_image("character_life.png")
 
         self.STATE_Q = []
         self.cur_state = RUN
@@ -153,7 +159,7 @@ class Character:
         if self.cur_state == SLIDE:
             return self.x - 35, self.y - 40, self.x + 45, self.y + 15
 
-        return self.x - 35, self.y - 40, self.x + 35, self.y + 40
+        return self.x - 25, self.y - 40, self.x + 35, self.y + 40
 
     def handle_collision(self, other, group):
         if group == 'character:heal_item':

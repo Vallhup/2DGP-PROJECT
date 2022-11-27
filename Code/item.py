@@ -6,7 +6,7 @@ import background
 class Heal_Item:
     image = None
     def __init__(self, x = 1500):
-        if Heal_Item == None:
+        if Heal_Item.image == None:
             Heal_Item.image = load_image("heal_item.png")
         self.x = x
 

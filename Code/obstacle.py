@@ -4,8 +4,11 @@ import game_framework
 import background
 
 class Obstacle:
+    image = None
     def __init__(self, x = 1000):
-        self.image = load_image("trash.png")
+        if Obstacle.image == None:
+            Obstacle.image = load_image("trash.png")
+
         self.x = x
 
     def update(self):

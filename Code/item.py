@@ -3,9 +3,11 @@ import game_world
 import game_framework
 import background
 
-class Item:
+class Heal_Item:
+    image = None
     def __init__(self, x = 1500):
-        self.image = load_image("heal_item.png")
+        if Heal_Item == None:
+            Heal_Item.image = load_image("heal_item.png")
         self.x = x
 
     def update(self):

@@ -24,3 +24,25 @@ class Heal_Item:
         print('character meets item')
         if group == 'character:heal_item':
             game_world.remove_object(self)
+
+class Star_Item:
+    image = None
+    def __init__(self, x = 800):
+        if Star_Item.image == None:
+            Star_Item.image = load_image("star_item.png")
+        self.x = x
+
+    def update(self):
+        self.x -= background.RUN_SPEED_PPS * game_framework.frame_time
+
+    def draw(self):
+        self.image.draw_to_origin(self.x, 100, 60, 60)
+        draw_rectangle(*self.get_bb())
+
+    def get_bb(self):
+        return self.x, 100, self.x + 60, 160
+
+    def handle_collision(self, other, group):
+        print('character meets item')
+        if group == 'character:star_item':
+            game_world.remove_object(self)

@@ -16,13 +16,11 @@ class Obstacle:
         pass
 
     def draw(self):
-        self.image.draw_to_origin(self.x, 90, 50, 110)
+        self.image.draw_to_origin(self.x, 90, 50, 80)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x, 90, self.x + 50, 200
+        return self.x, 90, self.x + 50, 170
 
     def handle_collision(self, other, group):
-        if group == 'character:obstacle':
-            game_world.remove_object(self)
-            pass
+        pass

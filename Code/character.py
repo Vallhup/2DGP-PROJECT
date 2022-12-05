@@ -35,7 +35,10 @@ class RUN:
     @staticmethod
     def do(self):
         # self.frame = (self.frame + 1) % 5
+        print(f'{self.star}')
         self.frame = (self.frame + FRAMES_PER_RUN_ACTION * RUN_ACTION_PER_TIME * game_framework.frame_time) % 5
+        if game_framework.frame_time - self.star_count > 5:
+            self.star = False
         pass
 
     @staticmethod
@@ -56,12 +59,12 @@ class JUMP:
     @staticmethod
     def do(self):
         if self.jump_count == 1:
-            self.y -= 320 * game_framework.frame_time
+            self.y -= 280 * game_framework.frame_time
 
         else:
-            self.y += 320 * game_framework.frame_time
+            self.y += 280 * game_framework.frame_time
 
-        if self.y > 360:
+        if self.y > 280:
             self.jump_count = 1
 
         if self.y < 130:
@@ -70,6 +73,9 @@ class JUMP:
             self.add_event(TIMER)
 
         self.jump_frame = (self.jump_frame + FRAMES_PER_JUMP_ACTION * JUMP_ACTION_PER_TIME * game_framework.frame_time) % 8
+
+        if game_framework.frame_time - self.star_count > 5:
+            self.star = False
         pass
 
     @staticmethod
@@ -88,6 +94,8 @@ class SLIDE:
 
     @staticmethod
     def do(self):
+        if game_framework.frame_time - self.star_count > 5:
+            self.star = False
         pass
 
     @staticmethod
@@ -105,6 +113,7 @@ next_state = {
 class Character:
     image_main = None
     image_life = None
+    image_star_life = None
     def add_event(self, event):
         self.STATE_Q.insert(0, event)
 
@@ -123,6 +132,9 @@ class Character:
         if Character.image_life == None:
             self.image_life = load_image("character_life.png")
 
+        if Character.image_star_life == None:
+            self.image_star_life = load_image("character_star_life.png")
+
         self.STATE_Q = []
         self.cur_state = RUN
         self.cur_state.enter(self, None)
@@ -131,7 +143,8 @@ class Character:
         self.jump_count = 0
         self.jump_frame = 0
 
-        self.damage_stop = False
+        self.star = False
+        self.star_count = 0
 
     def update(self):
         self.cur_state.do(self)
@@ -151,7 +164,11 @@ class Character:
         self.cur_state.draw(self)
 
         for life in range(0, self.life):
-            self.image_life.draw(life * 55 + 50, 500)
+            if self.star == False:
+                self.image_life.draw(life * 55 + 50, 500)
+
+            else:
+                self.image_star_life.draw(life * 55 + 50, 500)
 
         draw_rectangle(*self.get_bb())
 
@@ -167,4 +184,9 @@ class Character:
                 self.life += 1
 
         if group == 'character:obstacle':
-            self.life -= 1
+            if self.star == False:
+                self.life -= 1
+
+        if group == 'character:star_item':
+            self.star = True
+            self.star_count = game_framework.frame_time()

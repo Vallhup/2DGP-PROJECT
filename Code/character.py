@@ -123,7 +123,7 @@ class Character:
     def __init__(self, x = 100, y = 130):
         self.x, self.y = x, y
         self.frame = 0
-        self.life = 1
+        self.life = 3
 
         if Character.image_main == None:
             self.image_main = load_image("character_sprite1.png")
@@ -156,9 +156,8 @@ class Character:
 
         if self.damage == True:
             self.damage_count += game_framework.frame_time
-            print('tlqkf')
 
-        if self.damage_count > 0.4:
+        if self.damage_count > 0.5:
             self.damage = False
             self.damage_count = 0
 

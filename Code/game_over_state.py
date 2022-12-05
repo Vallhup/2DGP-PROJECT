@@ -3,7 +3,6 @@ from pico2d import *
 import game_framework
 import game_world
 import title_state
-import play_state
 
 image = None
 

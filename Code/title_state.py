@@ -1,8 +1,8 @@
 from pico2d import *
 
 import game_framework
-import play_state
 import game_world
+import select_level_state
 
 image = None
 
@@ -14,7 +14,7 @@ def handle_events():
             game_framework.quit()
 
         elif event.type == SDL_KEYDOWN:
-            game_framework.change_state(play_state)
+            game_framework.change_state(select_level_state)
 
 def enter():
     global image

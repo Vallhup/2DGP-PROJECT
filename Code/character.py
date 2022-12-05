@@ -1,4 +1,5 @@
 from pico2d import *
+from time import localtime
 
 import game_framework
 
@@ -35,10 +36,8 @@ class RUN:
     @staticmethod
     def do(self):
         # self.frame = (self.frame + 1) % 5
-        print(f'{self.star}')
+        # print(f'{self.star}')
         self.frame = (self.frame + FRAMES_PER_RUN_ACTION * RUN_ACTION_PER_TIME * game_framework.frame_time) % 5
-        if game_framework.frame_time - self.star_count > 5:
-            self.star = False
         pass
 
     @staticmethod
@@ -46,11 +45,11 @@ class RUN:
         self.image_main.clip_draw(int(self.frame) * 84, 250, 50, 55, self.x, self.y, 100, 100)
         pass
 
+
 class JUMP:
     @staticmethod
     def enter(self, event):
         print('ENTER JUMP')
-
 
     @staticmethod
     def exit(self, event):
@@ -73,9 +72,6 @@ class JUMP:
             self.add_event(TIMER)
 
         self.jump_frame = (self.jump_frame + FRAMES_PER_JUMP_ACTION * JUMP_ACTION_PER_TIME * game_framework.frame_time) % 8
-
-        if game_framework.frame_time - self.star_count > 5:
-            self.star = False
         pass
 
     @staticmethod
@@ -94,8 +90,6 @@ class SLIDE:
 
     @staticmethod
     def do(self):
-        if game_framework.frame_time - self.star_count > 5:
-            self.star = False
         pass
 
     @staticmethod
@@ -146,8 +140,24 @@ class Character:
         self.star = False
         self.star_count = 0
 
+        self.damage = False
+        self.damage_count = 0
+
     def update(self):
         self.cur_state.do(self)
+
+        if self.damage == True:
+            self.damage_count += game_framework.frame_time
+
+        if self.damage_count > 0.4:
+            self.damage = False
+            self.damage_count = 0
+
+        if self.star == True:
+            self.star_count += game_framework.frame_time
+
+        if self.star_count > 5:
+            self.star = False
 
         if self.STATE_Q:
             event = self.STATE_Q.pop()
@@ -184,9 +194,11 @@ class Character:
                 self.life += 1
 
         if group == 'character:obstacle':
-            if self.star == False:
+            if self.star == False and self.damage == False:
                 self.life -= 1
+                self.damage = True
 
         if group == 'character:star_item':
             self.star = True
-            self.star_count = game_framework.frame_time()
+            print(f'{self.star_count}')
+

@@ -145,21 +145,11 @@ class Character:
         self.star = False
         self.star_count = 0
 
-        self.damage = False
-        self.damage_count = 0
-
     def update(self):
         if self.life == 0:
             game_framework.change_state(game_over_state)
 
         self.cur_state.do(self)
-
-        if self.damage == True:
-            self.damage_count += game_framework.frame_time
-
-        if self.damage_count > 0.5:
-            self.damage = False
-            self.damage_count = 0
 
         if self.star == True:
             self.star_count += game_framework.frame_time
@@ -203,9 +193,8 @@ class Character:
                 self.life += 1
 
         if group == 'character:obstacle':
-            if self.star == False and self.damage == False:
+            if self.star == False and other.damage == True:
                 self.life -= 1
-                self.damage = True
 
         if group == 'character:star_item':
             self.star = True

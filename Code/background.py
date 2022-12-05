@@ -8,8 +8,19 @@ RUN_SPEED_MPS = RUN_SPEED_MPM / 60
 RUN_SPEED_PPS = RUN_SPEED_MPS * PIXEL_PER_METER
 
 class Background:
-    def __init__(self):
-        self.image = load_image("spring.png")
+    image = None
+
+    def __init__(self, state = 0):
+        if Background.image == None:
+            if state == 0:
+                Background.image = load_image("spring.png")
+
+            elif state == 1:
+                Background.image = load_image("summer.png")
+
+            elif state == 2:
+                Background.image = load_image("night.png")
+
         self.x = 0
 
     def update(self):

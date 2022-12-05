@@ -34,7 +34,7 @@ def enter():
     character = Character()
     heal_item = Heal_Item()
     star_item = Star_Item()
-    background = Background()
+    background = Background(1)
     obstacle = [ Obstacle(i) for i in range(0, 3000 + 1, 1000) ]
 
     game_world.add_object(background, 0)

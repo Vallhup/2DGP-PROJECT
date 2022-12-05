@@ -7,13 +7,14 @@ import game_over_state
 from character import Character
 from item import *
 from background import Background
-from obstacle import Obstacle
+from obstacle import *
 
 character = None
 heal_item = None
 star_item = None
 background = None
 obstacle = []
+bird = []
 
 def handle_events():
     events = get_events()
@@ -29,25 +30,28 @@ def handle_events():
             character.handle_event(event)
 
 def enter():
-    global character, heal_item, star_item, background, obstacle
+    global character, heal_item, star_item, background, obstacle, bird
 
     character = Character()
     heal_item = Heal_Item()
     star_item = Star_Item()
-    background = Background()
+    background = Background(0)
     obstacle = [ Obstacle(i) for i in range(0, 3000 + 1, 1000) ]
+    bird = [ Bird(i) for i in range(0, 900 + 1, 300) ]
 
     game_world.add_object(background, 0)
     game_world.add_object(character, 1)
     game_world.add_object(heal_item, 1)
     game_world.add_object(star_item, 1)
     game_world.add_objects(obstacle, 1)
+    game_world.add_objects(bird, 1)
 
     # character와 heal_item 충돌 그룹 추가
     game_world.add_collision_group(character, heal_item, 'character:heal_item')
 
-    # character와 obstacle 충돌 그룹 추가
+    # character와 obstacle, bird 충돌 그룹 추가
     game_world.add_collision_group(character, obstacle, 'character:obstacle')
+    game_world.add_collision_group(character, bird, 'character:obstacle')
 
     # character와 star_item 충돌 그룹 추가
     # game_world.add_collision_group(character, star_item, 'character:star_item')

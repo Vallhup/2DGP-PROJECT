@@ -1,7 +1,8 @@
 from pico2d import *
-from time import localtime
 
 import game_framework
+import game_world
+import game_over_state
 
 # 1. 이벤트 정의
 JD, SD, SU, TIMER = range(4)
@@ -38,6 +39,8 @@ class RUN:
         # self.frame = (self.frame + 1) % 5
         # print(f'{self.star}')
         self.frame = (self.frame + FRAMES_PER_RUN_ACTION * RUN_ACTION_PER_TIME * game_framework.frame_time) % 5
+
+
         pass
 
     @staticmethod
@@ -108,6 +111,7 @@ class Character:
     image_main = None
     image_life = None
     image_star_life = None
+
     def add_event(self, event):
         self.STATE_Q.insert(0, event)
 
@@ -115,10 +119,11 @@ class Character:
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
+
     def __init__(self, x = 100, y = 130):
         self.x, self.y = x, y
         self.frame = 0
-        self.life = 3
+        self.life = 1
 
         if Character.image_main == None:
             self.image_main = load_image("character_sprite1.png")
@@ -144,10 +149,14 @@ class Character:
         self.damage_count = 0
 
     def update(self):
+        if self.life == 0:
+            game_framework.change_state(game_over_state)
+
         self.cur_state.do(self)
 
         if self.damage == True:
             self.damage_count += game_framework.frame_time
+            print('tlqkf')
 
         if self.damage_count > 0.4:
             self.damage = False
@@ -158,6 +167,7 @@ class Character:
 
         if self.star_count > 5:
             self.star = False
+            self.star_count = 0
 
         if self.STATE_Q:
             event = self.STATE_Q.pop()
@@ -200,5 +210,4 @@ class Character:
 
         if group == 'character:star_item':
             self.star = True
-            print(f'{self.star_count}')
 

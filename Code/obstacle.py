@@ -13,6 +13,9 @@ class Obstacle:
 
     def update(self):
         self.x -= background.RUN_SPEED_PPS * game_framework.frame_time
+
+        if self.x < 0:
+            game_world.remove_object(self)
         pass
 
     def draw(self):

@@ -2,6 +2,8 @@ from pico2d import *
 import game_framework
 import game_world
 
+import game_over_state
+
 from character import Character
 from item import *
 from background import Background
@@ -48,10 +50,13 @@ def enter():
     game_world.add_collision_group(character, obstacle, 'character:obstacle')
 
     # character와 star_item 충돌 그룹 추가
-    game_world.add_collision_group(character, star_item, 'character:star_item')
+    # game_world.add_collision_group(character, star_item, 'character:star_item')
+
+    print(f'{game_world.collision_group}')
 
 def exit():
     game_world.clear()
+    print(f'{game_world.collision_group}')
 
 def update():
     # delay(0.05)

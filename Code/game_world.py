@@ -28,10 +28,12 @@ def all_objects():
 
 def clear():
     for o in all_objects():
-        del o
+        remove_object(o)
 
     for layer in world:
         layer.clear()
+
+    collision_group.clear()
 
 def add_collision_group(a, b, group):
     if group not in collision_group:

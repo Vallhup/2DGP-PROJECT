@@ -166,7 +166,7 @@ class Character:
         self.__dict__.update(state)
 
     def update(self):
-        if self.life == 0:
+        if self.life <= 0:
             game_framework.change_state(game_over_state)
 
         self.cur_state.do(self)
@@ -220,6 +220,10 @@ class Character:
         if group == 'character:obstacle':
             if self.star == False and other.damage == True:
                 self.life -= 1
+
+        if group == 'character:die':
+            if self.star == False and other.damage == True:
+                self.life -= 3
 
         if group == 'character:star_item':
             self.star = True

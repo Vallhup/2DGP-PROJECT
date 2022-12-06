@@ -62,3 +62,16 @@ class Bird(Obstacle):
 
     def get_bb(self):
         return self.x, 150, self.x + 160, 270
+
+class Die(Obstacle):
+    image = None
+    def __init__(self, x = 1000):
+        if Die.image == None:
+            Die.image = load_image("die.png")
+
+        self.x = x
+        self.damage = True
+
+    def handle_collision(self, other, group):
+        if group == 'character:die':
+            self.damage = False

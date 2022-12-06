@@ -36,11 +36,11 @@ class Heal_Item:
 
 class Star_Item:
     image = None
-    def __init__(self, x = 800):
+    def __init__(self, x = 800, y = 230):
         if Star_Item.image == None:
             Star_Item.image = load_image("star_item.png")
         self.x = x
-        self.y = 230
+        self.y = y
 
     def __getstate__(self):
         state = {'x': self.x, 'y': self.y}

@@ -4,6 +4,9 @@ import game_framework
 import game_world
 import background
 import game_over_state
+import easy_end_state
+import normal_end_state
+import hard_end_state
 
 # 1. 이벤트 정의
 JD, SD, SU, TIMER = range(4)
@@ -126,15 +129,16 @@ class Character:
         self.sx = x
         self.frame = 0
         self.life = 3
+        self.map = map
         self.map_size = 0
 
-        if map == 0:
+        if self.map == 0:
             self.map_size = 6200
 
-        if map == 1:
+        if self.map == 1:
             self.map_size = 9000
 
-        if map == 2:
+        if self.map == 2:
             self.map_size = 12000
 
         if Character.image_main == None:
@@ -158,7 +162,7 @@ class Character:
         self.star_count = 0
 
     def __getstate__(self):
-        state = { 'x': self.x, 'y': self.y, 'sx': self.sx, 'map_size': self.map_size}
+        state = { 'x': self.x, 'y': self.y, 'sx': self.sx, 'map': self.map, 'map_size': self.map_size }
         return state
 
     def __setstate__(self, state):
@@ -175,6 +179,16 @@ class Character:
 
         if self.sx > self.map_size:
             self.x += background.RUN_SPEED_PPS * game_framework.frame_time
+
+        if self.x > 1100:
+            if self.map == 0:
+                game_framework.change_state(easy_end_state)
+
+            elif self.map == 1:
+                game_framework.change_state(normal_end_state)
+
+            elif self.map == 2:
+                game_framework.change_state(hard_end_state)
 
         if self.star == True:
             self.star_count += game_framework.frame_time

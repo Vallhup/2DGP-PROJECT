@@ -5,6 +5,7 @@ import game_world
 import select_level_state
 
 image = None
+bgm = None
 
 def handle_events():
     events = get_events()
@@ -17,12 +18,19 @@ def handle_events():
             game_framework.change_state(select_level_state)
 
 def enter():
-    global image
+    global image, bgm
 
     image = load_image("title.png")
+    bgm = load_music('title_sound.mp3')
+    bgm.set_volume(30)
+    bgm.repeat_play()
 
     game_world.add_object(image, 0)
+
 def exit():
+    global bgm
+    del bgm
+
     game_world.clear()
 
 def update():

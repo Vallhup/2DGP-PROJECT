@@ -14,6 +14,8 @@ obstacle = []
 bird = []
 die = None
 
+bgm = None
+
 def handle_events():
     events = get_events()
 
@@ -28,7 +30,7 @@ def handle_events():
             character.handle_event(event)
 
 def enter():
-    global character, heal_item, star_item, background, obstacle, bird, die
+    global character, heal_item, star_item, background, obstacle, bird, die, bgm
 
     from character import Character
 
@@ -63,6 +65,9 @@ def enter():
             if type(o) is Die:
                 die = o
 
+    bgm = load_music("hard_sound.mp3")
+    bgm.set_volume(30)
+    bgm.repeat_play()
 
     # character = Character(100, 130, 2)
     # background = Background(2)
@@ -105,6 +110,9 @@ def enter():
 
 
 def exit():
+    global bgm
+    del bgm
+
     game_world.clear()
 
 def update():

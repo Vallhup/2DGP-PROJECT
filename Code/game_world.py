@@ -3,7 +3,8 @@ import pickle
 # game world
 
 # layer 0 : Background Objects
-# layer 1 : Foreground objects
+# layer 1 : Foreground Objects
+
 world = [[], []]
 
 collision_group = dict()

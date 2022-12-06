@@ -13,6 +13,8 @@ background = None
 obstacle = []
 bird = []
 
+bgm = None
+
 def handle_events():
     events = get_events()
 
@@ -27,7 +29,7 @@ def handle_events():
             character.handle_event(event)
 
 def enter():
-    global character, heal_item, background, obstacle, bird
+    global character, heal_item, background, obstacle, bird, bgm
 
     game_world.load("easy_state.pickle")
 
@@ -51,6 +53,10 @@ def enter():
         elif isinstance(o, Bird):
             if type(o) is Bird:
                 bird = o
+
+    bgm = load_music("easy_sound.mp3")
+    bgm.set_volume(30)
+    bgm.repeat_play()
 
     # character = Character(100, 130, 0)
     # heal_item = Heal_Item(4470)
@@ -80,6 +86,9 @@ def enter():
     # game_world.add_collision_group(character, star_item, 'character:star_item')
 
 def exit():
+    global bgm
+    del bgm
+
     game_world.clear()
 
 def update():

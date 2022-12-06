@@ -12,6 +12,14 @@ class Obstacle:
         self.x = x
         self.damage = True
 
+    def __getstate__(self):
+        state = {'x': self.x, 'damage': self.damage}
+        return state
+
+    def __setstate__(self, state):
+        self.__init__()
+        self.__dict__.update(state)
+
     def update(self):
         self.x -= background.RUN_SPEED_PPS * game_framework.frame_time
 
@@ -31,7 +39,7 @@ class Obstacle:
             self.damage = False
         pass
 
-class Bird:
+class Bird(Obstacle):
     image = None
 
     def __init__(self, x = 1000):
@@ -54,7 +62,3 @@ class Bird:
 
     def get_bb(self):
         return self.x, 150, self.x + 160, 270
-
-    def handle_collision(self, other, group):
-        if group == 'character:obstacle':
-            self.damage = False

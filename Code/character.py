@@ -2,6 +2,7 @@ from pico2d import *
 
 import game_framework
 import game_world
+import background
 import game_over_state
 
 # 1. 이벤트 정의
@@ -120,13 +121,15 @@ class Character:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
 
-    def __init__(self, x = 100, y = 130):
+    def __init__(self, x = 100, y = 130, map_size = 0):
         self.x, self.y = x, y
+        self.sx = x
         self.frame = 0
         self.life = 3
+        self.map_size = (map_size + 1) * 6200
 
         if Character.image_main == None:
-            self.image_main = load_image("character_sprite1.png")
+            self.image_main = load_image("character_sprite.png")
 
         if Character.image_life == None:
             self.image_life = load_image("character_life.png")
@@ -145,11 +148,24 @@ class Character:
         self.star = False
         self.star_count = 0
 
+    def __getstate__(self):
+        state = { 'x': self.x, 'y': self.y, 'sx': self.sx, 'map_size': self.map_size}
+        return state
+
+    def __setstate__(self, state):
+        self.__init__()
+        self.__dict__.update(state)
+
     def update(self):
         if self.life == 0:
             game_framework.change_state(game_over_state)
 
         self.cur_state.do(self)
+
+        self.sx += background.RUN_SPEED_PPS * game_framework.frame_time
+
+        if self.sx > self.map_size:
+            self.x += background.RUN_SPEED_PPS * game_framework.frame_time
 
         if self.star == True:
             self.star_count += game_framework.frame_time

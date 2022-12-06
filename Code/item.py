@@ -9,16 +9,25 @@ class Heal_Item:
         if Heal_Item.image == None:
             Heal_Item.image = load_image("heal_item.png")
         self.x = x
+        self.y = 130
+
+    def __getstate__(self):
+        state = {'x': self.x, 'y': self.y}
+        return state
+
+    def __setstate__(self, state):
+        self.__init__()
+        self.__dict__.update(state)
 
     def update(self):
         self.x -= background.RUN_SPEED_PPS * game_framework.frame_time
 
     def draw(self):
-        self.image.draw_to_origin(self.x, 70, 120, 120)
+        self.image.draw_to_origin(self.x, self.y, 120, 120)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x + 25, 100, self.x + 90, 160
+        return self.x + 25, self.y + 30, self.x + 90, self.y + 30 + 60
 
     def handle_collision(self, other, group):
         print('character meets item')

@@ -2,8 +2,6 @@ from pico2d import *
 import game_framework
 import game_world
 
-import game_over_state
-
 from character import Character
 from item import *
 from background import Background
@@ -11,7 +9,6 @@ from obstacle import *
 
 character = None
 heal_item = None
-star_item = None
 background = None
 obstacle = []
 bird = []
@@ -30,40 +27,62 @@ def handle_events():
             character.handle_event(event)
 
 def enter():
-    global character, heal_item, star_item, background, obstacle, bird
+    global character, heal_item, background, obstacle, bird
 
-    character = Character()
-    heal_item = Heal_Item()
-    star_item = Star_Item()
-    background = Background(0)
-    obstacle = [ Obstacle(i) for i in range(0, 3000 + 1, 1000) ]
-    bird = [ Bird(i) for i in range(0, 900 + 1, 300) ]
+    game_world.load("easy_state.pickle")
 
-    game_world.add_object(background, 0)
-    game_world.add_object(character, 1)
-    game_world.add_object(heal_item, 1)
-    game_world.add_object(star_item, 1)
-    game_world.add_objects(obstacle, 1)
-    game_world.add_objects(bird, 1)
+    for o in game_world.all_objects():
+        if isinstance(o, Character):
+            if type(o) is Character:
+                character = o
 
-    # character와 heal_item 충돌 그룹 추가
-    game_world.add_collision_group(character, heal_item, 'character:heal_item')
+        elif isinstance(o, Heal_Item):
+            if type(o) is Heal_Item:
+                heal_item = o
 
-    # character와 obstacle, bird 충돌 그룹 추가
-    game_world.add_collision_group(character, obstacle, 'character:obstacle')
-    game_world.add_collision_group(character, bird, 'character:obstacle')
+        elif isinstance(o, Background):
+            if type(o) is Background:
+                background = o
+
+        elif isinstance(o, Obstacle):
+            if type(o) is Obstacle:
+                obstacle = o
+
+        elif isinstance(o, Bird):
+            if type(o) is Bird:
+                bird = o
+
+    # character = Character(100, 130, 0)
+    # heal_item = Heal_Item(4470)
+    # background = Background(0)
+    # obstacle = [ Obstacle(i) for i in range(0, 3500 + 1, 700) ]
+    # bird = [ Bird(i) for i in range(4000, 4900 + 1, 300) ]
+    # obstacle.append(Obstacle(5300))
+    # bird.append(Bird(5700))
+    #
+    # game_world.add_object(background, 0)
+    # game_world.add_object(character, 1)
+    # game_world.add_object(heal_item, 1)
+    # game_world.add_objects(obstacle, 1)
+    # game_world.add_objects(bird, 1)
+    #
+    # # character와 heal_item 충돌 그룹 추가
+    # game_world.add_collision_group(character, heal_item, 'character:heal_item')
+    #
+    # # character와 obstacle, bird 충돌 그룹 추가
+    # game_world.add_collision_group(character, obstacle, 'character:obstacle')
+    # game_world.add_collision_group(character, bird, 'character:obstacle')
+    #
+    # game_world.save("easy_state.pickle")
+
 
     # character와 star_item 충돌 그룹 추가
     # game_world.add_collision_group(character, star_item, 'character:star_item')
 
-    print(f'{game_world.collision_group}')
-
 def exit():
     game_world.clear()
-    print(f'{game_world.collision_group}')
 
 def update():
-    # delay(0.05)
     for game_object in game_world.all_objects():
         game_object.update()
 

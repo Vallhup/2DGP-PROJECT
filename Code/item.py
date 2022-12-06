@@ -40,16 +40,25 @@ class Star_Item:
         if Star_Item.image == None:
             Star_Item.image = load_image("star_item.png")
         self.x = x
+        self.y = 230
+
+    def __getstate__(self):
+        state = {'x': self.x, 'y': self.y}
+        return state
+
+    def __setstate__(self, state):
+        self.__init__()
+        self.__dict__.update(state)
 
     def update(self):
         self.x -= background.RUN_SPEED_PPS * game_framework.frame_time
 
     def draw(self):
-        self.image.draw_to_origin(self.x, 100, 60, 60)
+        self.image.draw_to_origin(self.x, self.y, 60, 60)
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x, 100, self.x + 60, 160
+        return self.x, self.y, self.x + 60, self.y + 60
 
     def handle_collision(self, other, group):
         print('character meets item')

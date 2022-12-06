@@ -55,7 +55,7 @@ def enter():
     # character = Character(100, 130, 0)
     # heal_item = Heal_Item(4470)
     # background = Background(0)
-    # obstacle = [ Obstacle(i) for i in range(0, 3500 + 1, 700) ]
+    # obstacle = [ Obstacle(i) for i in range(700, 3500 + 1, 700) ]
     # bird = [ Bird(i) for i in range(4000, 4900 + 1, 300) ]
     # obstacle.append(Obstacle(5300))
     # bird.append(Bird(5700))

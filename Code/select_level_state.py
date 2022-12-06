@@ -40,9 +40,10 @@ def handle_events():
 
 
 def enter():
-    global image
+    global image, select_level
 
     image = load_image("select_level.png")
+    select_level = 0
 
     game_world.add_object(image, 0)
 

@@ -70,12 +70,12 @@ def enter():
     # bird.append(Bird(5900))
     # obstacle.append(Obstacle(6250))
     # bird.append(Bird(6500))
-    # star_item = Star_Item(6750)
+    # star_item = Star_Item(6750, 230)
     # obstacle.append(Obstacle(6900))
     # bird.append(Bird(7000))
     # heal_item.append(Heal_Item(7150))
     # obstacle += [ Obstacle(i) for i in range(7300, 8600 + 1, 650) ]
-
+    #
     # game_world.add_object(background, 0)
     # game_world.add_object(character, 1)
     # game_world.add_objects(heal_item, 1)

@@ -1,3 +1,5 @@
+import pickle
+
 # game world
 
 # layer 0 : Background Objects
@@ -67,3 +69,15 @@ def remove_collision_object(o):
     for pairs in collision_group.values(): # key:value에서 value에 해당되는 것만 가져온다.
         if o in pairs[0]: pairs[0].remove(o)
         if o in pairs[1]: pairs[1].remove(o)
+
+def save(fileName):
+    game = [world, collision_group]
+    with open(fileName, 'wb') as f:
+        pickle.dump(game, f)
+
+def load(fileName):
+    global world, collision_group
+
+    with open(fileName, 'rb') as f:
+        game = pickle.load(f)
+        world, collision_group = game[0], game[1]

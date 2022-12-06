@@ -97,7 +97,6 @@ def update():
 
     for a, b, group in game_world.all_collision_pairs():
         if collide(a, b):
-            print('COLLISION by', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 

@@ -29,7 +29,6 @@ class Obstacle:
 
     def draw(self):
         self.image.draw_to_origin(self.x, 90, 50, 80)
-        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x, 90, self.x + 50, 170
@@ -58,7 +57,6 @@ class Bird(Obstacle):
 
     def draw(self):
         self.image.draw_to_origin(self.x, 150, 160, 120)
-        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x, 150, self.x + 160, 270
@@ -71,6 +69,10 @@ class Die(Obstacle):
 
         self.x = x
         self.damage = True
+
+    def draw(self):
+        self.image.draw_to_origin(self.x, 90, 50, 80)
+        draw_rectangle(*self.get_bb())
 
     def handle_collision(self, other, group):
         if group == 'character:die':

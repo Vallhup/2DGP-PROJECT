@@ -24,13 +24,11 @@ class Heal_Item:
 
     def draw(self):
         self.image.draw_to_origin(self.x, self.y, 120, 120)
-        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x + 25, self.y + 30, self.x + 90, self.y + 30 + 60
 
     def handle_collision(self, other, group):
-        print('character meets item')
         if group == 'character:heal_item':
             game_world.remove_object(self)
 
@@ -55,12 +53,10 @@ class Star_Item:
 
     def draw(self):
         self.image.draw_to_origin(self.x, self.y, 60, 60)
-        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x, self.y, self.x + 60, self.y + 60
 
     def handle_collision(self, other, group):
-        print('character meets item')
         if group == 'character:star_item':
             game_world.remove_object(self)

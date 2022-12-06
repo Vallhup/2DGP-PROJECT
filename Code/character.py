@@ -32,11 +32,11 @@ FRAMES_PER_JUMP_ACTION = 8
 class RUN:
     @staticmethod
     def enter(self, event):
-        print('ENTER RUN')
+        pass
 
     @staticmethod
     def exit(self, event):
-        print('EXIT RUN')
+        pass
 
     @staticmethod
     def do(self):
@@ -56,11 +56,11 @@ class RUN:
 class JUMP:
     @staticmethod
     def enter(self, event):
-        print('ENTER JUMP')
+        pass
 
     @staticmethod
     def exit(self, event):
-        print('EXIT JUMP')
+        pass
 
     @staticmethod
     def do(self):
@@ -89,11 +89,11 @@ class JUMP:
 class SLIDE:
     @staticmethod
     def enter(self, event):
-        print('ENTER SLIDE')
+        pass
 
     @staticmethod
     def exit(self, event):
-        print('EXIT SLIDE')
+        pass
 
     @staticmethod
     def do(self):
@@ -217,8 +217,6 @@ class Character:
 
             else:
                 self.image_star_life.draw(life * 55 + 50, 500)
-
-        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         if self.cur_state == SLIDE:

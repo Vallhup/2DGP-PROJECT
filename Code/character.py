@@ -126,7 +126,16 @@ class Character:
         self.sx = x
         self.frame = 0
         self.life = 3
-        self.map_size = (map_size + 1) * 6200
+        self.map_size = 0
+
+        if map_size == 0:
+            self.map_size = 6200
+
+        if map_size == 1:
+            self.map_size = 9000
+
+        if map_size == 2:
+            self.map_size = 13000
 
         if Character.image_main == None:
             self.image_main = load_image("character_sprite.png")

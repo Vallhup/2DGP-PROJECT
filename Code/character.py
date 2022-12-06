@@ -121,21 +121,21 @@ class Character:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
 
-    def __init__(self, x = 100, y = 130, map_size = 0):
+    def __init__(self, x = 100, y = 130, map = 0):
         self.x, self.y = x, y
         self.sx = x
         self.frame = 0
         self.life = 3
         self.map_size = 0
 
-        if map_size == 0:
+        if map == 0:
             self.map_size = 6200
 
-        if map_size == 1:
+        if map == 1:
             self.map_size = 9000
 
-        if map_size == 2:
-            self.map_size = 13000
+        if map == 2:
+            self.map_size = 12000
 
         if Character.image_main == None:
             self.image_main = load_image("character_sprite.png")

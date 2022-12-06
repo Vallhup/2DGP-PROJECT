@@ -2,18 +2,16 @@ from pico2d import *
 import game_framework
 import game_world
 
-import game_over_state
-
-from character import Character
 from item import *
 from background import Background
-from obstacle import Obstacle
+from obstacle import *
 
 character = None
-heal_item = None
+heal_item = []
 star_item = None
 background = None
 obstacle = []
+bird = []
 
 def handle_events():
     events = get_events()
@@ -29,34 +27,77 @@ def handle_events():
             character.handle_event(event)
 
 def enter():
-    global character, heal_item, star_item, background, obstacle
+    global character, heal_item, star_item, background, obstacle, bird
 
-    character = Character()
-    heal_item = Heal_Item()
-    star_item = Star_Item()
-    background = Background(1)
-    obstacle = [ Obstacle(i) for i in range(0, 3000 + 1, 1000) ]
+    from character import Character
 
-    game_world.add_object(background, 0)
-    game_world.add_object(character, 1)
-    game_world.add_object(heal_item, 1)
-    game_world.add_object(star_item, 1)
-    game_world.add_objects(obstacle, 1)
+    game_world.load("normal_state.pickle")
 
-    # character와 heal_item 충돌 그룹 추가
-    game_world.add_collision_group(character, heal_item, 'character:heal_item')
+    for o in game_world.all_objects():
+        if isinstance(o, Character):
+            if type(o) is Character:
+                character = o
 
-    # character와 obstacle 충돌 그룹 추가
-    game_world.add_collision_group(character, obstacle, 'character:obstacle')
+        elif isinstance(o, Background):
+            if type(o) is Background:
+                background = o
 
-    # character와 star_item 충돌 그룹 추가
+        elif isinstance(o, Heal_Item):
+            if type(o) is Heal_Item:
+                heal_item = o
+
+        elif isinstance(o, Obstacle):
+            if type(o) is Obstacle:
+                obstacle = o
+
+        elif isinstance(o, Bird):
+            if type(o) is Bird:
+                bird = o
+
+        elif isinstance(o, Star_Item):
+            if type(o) is Star_Item:
+                star_item = o
+
+
+    # character = Character(100, 130, 1)
+    # heal_item.append(Heal_Item(4470))
+    # background = Background(1)
+    # obstacle = [ Obstacle(i) for i in range(650, 3500 + 1, 650) ]
+    # bird.append(Bird(900))
+    # bird += [ Bird(i) for i in range(3700, 4600 + 1, 300) ]
+    # obstacle.append(Obstacle(5300))
+    # bird.append(Bird(5700))
+    # bird.append(Bird(5900))
+    # obstacle.append(Obstacle(6250))
+    # bird.append(Bird(6500))
+    # star_item = Star_Item(6750)
+    # obstacle.append(Obstacle(6900))
+    # bird.append(Bird(7000))
+    # heal_item.append(Heal_Item(7150))
+    # obstacle += [ Obstacle(i) for i in range(7300, 8600 + 1, 650) ]
+
+    # game_world.add_object(background, 0)
+    # game_world.add_object(character, 1)
+    # game_world.add_objects(heal_item, 1)
+    # game_world.add_objects(obstacle, 1)
+    # game_world.add_objects(bird, 1)
+    # game_world.add_object(star_item, 1)
+    #
+    # # character와 heal_item 충돌 그룹 추가
+    # game_world.add_collision_group(character, heal_item, 'character:heal_item')
+    #
+    # # character와 obstacle, bird 충돌 그룹 추가
+    # game_world.add_collision_group(character, obstacle, 'character:obstacle')
+    # game_world.add_collision_group(character, bird, 'character:obstacle')
+    #
+    # # character와 star_item 충돌 그룹 추가
     # game_world.add_collision_group(character, star_item, 'character:star_item')
+    #
+    # game_world.save("normal_state.pickle")
 
-    print(f'{game_world.collision_group}')
 
 def exit():
     game_world.clear()
-    print(f'{game_world.collision_group}')
 
 def update():
     # delay(0.05)
